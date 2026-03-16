@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  mysql-ferreteria:
+    image: mysql:8.0
+    container_name: mysql-ferreteria
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root1234
+      MYSQL_DATABASE: ferreteria_db
+      MYSQL_USER: ferreteria_user
+      MYSQL_PASSWORD: ferreteria1234
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_ferreteria_data:/var/lib/mysql
+    networks:
+      - ferreteria-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot1234"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  mysql_ferreteria_data:
+
+networks:
+  ferreteria-network:
+    driver: bridge
