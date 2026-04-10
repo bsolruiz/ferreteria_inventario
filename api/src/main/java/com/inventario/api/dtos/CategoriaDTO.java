@@ -7,8 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class MovimientoDTO {
+public class CategoriaDTO {
 
-    private String tipoMovimiento;
-    private Integer usuarioId;
+    private String nombreCategoria;
 }

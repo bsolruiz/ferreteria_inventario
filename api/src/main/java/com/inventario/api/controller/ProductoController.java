@@ -1,8 +1,7 @@
-package com.tu.paquete.controller;
-
-import com.tu.paquete.dto.ProductoDTO;
-import com.tu.paquete.model.Producto;
-import com.tu.paquete.service.ProductoService;
+package com.inventario.api.controller;
+import com.inventario.api.dtos.ProductoDTO;
+import com.inventario.api.model.Producto;
+import com.inventario.api.services.ProductoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

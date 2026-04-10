@@ -1,6 +1,6 @@
-package com.tu.paquete.repository;
+package com.inventario.api.repository;
 
-import com.tu.paquete.model.Usuario;
+import com.inventario.api.model.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

@@ -1,7 +1,7 @@
-package com.tu.paquete.controller;
+package com.inventario.api.controller;
 
-import com.tu.paquete.dto.MovimientoDTO;
-import com.tu.paquete.service.MovimientoService;
+import com.inventario.api.dtos.MovimientoDTO;
+import com.inventario.api.services.MovimientoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,4 +1,4 @@
-package com.tu.paquete.model;
+package com.inventario.api.model;
 
 import jakarta.persistence.*;
 import lombok.*;

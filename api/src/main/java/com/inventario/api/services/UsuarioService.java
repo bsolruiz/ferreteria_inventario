@@ -1,10 +1,10 @@
-package com.tu.paquete.service;
+package com.inventario.api.services;
 
-import com.tu.paquete.dto.UsuarioDTO;
-import com.tu.paquete.model.Rol;
-import com.tu.paquete.model.Usuario;
-import com.tu.paquete.repository.RolRepository;
-import com.tu.paquete.repository.UsuarioRepository;
+import com.inventario.api.dtos.UsuarioDTO;
+import com.inventario.api.model.Rol;
+import com.inventario.api.model.Usuario;
+import com.inventario.api.repository.RolRepository;
+import com.inventario.api.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -95,10 +95,9 @@ public class UsuarioService {
     private UsuarioDTO mapToDTO(Usuario usuario) {
 
         UsuarioDTO dto = new UsuarioDTO();
-        dto.setId(usuario.getIdUsuario());
         dto.setNombres(usuario.getNombres());
         dto.setCorreo(usuario.getCorreo());
-        dto.setContrasena(null); // 🔐 nunca devolver
+        dto.setContrasena(null);
         dto.setRolId(usuario.getRol().getIdRol());
         dto.setEstado(usuario.getEstado());
 

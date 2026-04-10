@@ -1,7 +1,6 @@
-package com.tu.paquete.controller;
-
-import com.tu.paquete.dto.UsuarioDTO;
-import com.tu.paquete.service.UsuarioService;
+package com.inventario.api.controller;
+import com.inventario.api.dtos.UsuarioDTO;
+import com.inventario.api.services.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

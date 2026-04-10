@@ -1,9 +1,14 @@
-package com.tu.paquete.dto;
+package com.inventario.api.dtos;
 
-import lombok.Data;
+import lombok.*;
+
 import java.math.BigDecimal;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class ProductoDTO {
 
     private String nombreProducto;
@@ -11,6 +16,4 @@ public class ProductoDTO {
     private BigDecimal precio;
     private String codigoBarras;
     private Integer categoriaId;
-
-    private Integer cantidadInicial;
 }

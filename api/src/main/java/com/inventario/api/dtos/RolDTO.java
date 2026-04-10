@@ -1,5 +1,4 @@
 package com.inventario.api.dtos;
-
 import lombok.*;
 
 @Getter
@@ -7,8 +6,8 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class MovimientoDTO {
+public class RolDTO {
 
-    private String tipoMovimiento;
-    private Integer usuarioId;
+    private Integer idRol;
+    private String nombreRol;
 }

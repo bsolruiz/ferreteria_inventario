@@ -1,14 +1,19 @@
-package com.tu.paquete.dto;
+package com.inventario.api.dtos;
 
-import lombok.Data;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class UsuarioDTO {
 
-    private Long id;
     private String nombres;
     private String correo;
     private String contrasena;
-    private Long rolId;
+    private Integer rolId;
     private Long estado;
+
+
 }
