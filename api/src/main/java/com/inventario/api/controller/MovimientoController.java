@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/movimientos")
 @RequiredArgsConstructor
 public class MovimientoController {
-
+/*
     private final MovimientoService movimientoService;
 
     @PostMapping
@@ -21,5 +21,5 @@ public class MovimientoController {
     @GetMapping("/stock/{productoId}")
     public int obtenerStock(@PathVariable Integer productoId) {
         return movimientoService.calcularStock(productoId);
-    }
+    }*/
 }

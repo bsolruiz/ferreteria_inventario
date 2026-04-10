@@ -1,4 +1,4 @@
-package com.inventario.api.service;
+package com.inventario.api.services;
 
 import com.inventario.api.dtos.DetalleMovimientoDTO;
 import com.inventario.api.dtos.MovimientoRequestDTO;
@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Service
 @RequiredArgsConstructor
 public class MovimientoService {
-
+/*
     private final MovimientoRepository movimientoRepository;
     private final DetalleMovimientoRepository detalleRepository;
     private final ProductoRepository productoRepository;
@@ -67,5 +67,5 @@ public class MovimientoService {
         salidas = (salidas == null) ? 0 : salidas;
 
         return entradas - salidas;
-    }
+    }*/
 }
