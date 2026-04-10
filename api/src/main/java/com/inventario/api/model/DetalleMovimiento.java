@@ -1,4 +1,4 @@
-package com.inventario.api.model;
+package com.tu.paquete.model;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -14,18 +14,15 @@ public class DetalleMovimiento {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_detalle")
     private Integer idDetalle;
 
+    private Integer cantidad;
+
     @ManyToOne
-    @JoinColumn(name = "producto_id")
+    @JoinColumn(name = "producto_id", nullable = false)
     private Producto producto;
 
     @ManyToOne
-    @JoinColumn(name = "movimiento_id")
+    @JoinColumn(name = "movimiento_id", nullable = false)
     private Movimiento movimiento;
-
-    @Column(name = "cantidad")
-    private Integer cantidad;
-
 }
