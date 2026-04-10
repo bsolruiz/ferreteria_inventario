@@ -15,14 +15,14 @@ public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idUsuario;
+    private Long idUsuario;
 
     private String nombres;
 
     @Column(unique = true)
     private String correo;
 
-    private String contraseña;
+    private String contrasena;
 
     private Long estado;
 
@@ -33,4 +33,15 @@ public class Usuario {
     @ManyToOne
     @JoinColumn(name = "rol_id", nullable = false)
     private Rol rol;
+
+    @PrePersist
+    public void prePersist() {
+        this.fechaCreacion = LocalDateTime.now();
+        this.estado = 1L;
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        this.fechaActualizacion = LocalDateTime.now();
+    }
 }
