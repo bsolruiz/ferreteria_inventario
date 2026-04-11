@@ -2,6 +2,7 @@ package com.inventario.api.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import java.util.List;
 
 @Entity
 @Table(name = "rol")
@@ -14,10 +15,10 @@ public class Rol {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_rol")
     private Integer idRol;
 
-    @Column(name = "nombre_rol", nullable = false, length = 100)
     private String nombreRol;
 
+    @OneToMany(mappedBy = "rol")
+    private List<Usuario> usuarios;
 }

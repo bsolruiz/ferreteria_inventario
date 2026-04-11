@@ -1,0 +1,19 @@
+package com.inventario.api.dtos;
+
+import lombok.*;
+
+import java.math.BigDecimal;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class ProductoDTO {
+
+    private String nombreProducto;
+    private String descripcion;
+    private BigDecimal precio;
+    private String codigoBarras;
+    private Integer categoriaId;
+}

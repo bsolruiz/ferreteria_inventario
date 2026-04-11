@@ -1,4 +1,4 @@
-package com.inventario.api.constants;
+package com.inventario.api.model;
 
 public enum TipoMovimiento {
     ENTRADA,
