@@ -11,4 +11,6 @@ public class MovimientoDTO {
 
     private String tipoMovimiento;
     private Integer usuarioId;
+    private Integer productoId;
+    private String motivo;
 }

@@ -27,6 +27,8 @@ public class Producto {
     @Column(unique = true)
     private String codigoBarras;
 
+    private Integer cantidad;
+
     private LocalDateTime fechaCreacion;
 
     private LocalDateTime fechaActualizacion;
