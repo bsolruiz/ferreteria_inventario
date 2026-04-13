@@ -20,24 +20,30 @@ public class MovimientoService {
     @Transactional
     public void registrarMovimiento(MovimientoDTO dto) {
 
+
+        if (dto.getCantidad() == null || dto.getCantidad() <= 0) {
+            throw new RuntimeException("La cantidad debe ser mayor a 0");
+        }
+
         Usuario usuario = usuarioRepository.findById(dto.getUsuarioId())
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
-        Producto producto = productoRepository.findById(dto.getProductoId())
+        Producto producto = productoRepository.findById(dto.getProductoId().intValue())
                 .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
 
         TipoMovimiento tipo = TipoMovimiento.valueOf(dto.getTipoMovimiento().toUpperCase());
 
         int stockActual = producto.getCantidad() != null ? producto.getCantidad() : 0;
 
-        if (tipo == TipoMovimiento.SALIDA && stockActual < 1) {
-            throw new RuntimeException("Stock insuficiente para el producto: " + producto.getNombreProducto());
+        if (tipo == TipoMovimiento.SALIDA && stockActual < dto.getCantidad()) {
+            throw new RuntimeException("Stock insuficiente. Stock actual: " + stockActual +
+                    ", cantidad solicitada: " + dto.getCantidad());
         }
 
         if (tipo == TipoMovimiento.ENTRADA) {
-            producto.setCantidad(stockActual + 1);
+            producto.setCantidad(stockActual + dto.getCantidad());
         } else {
-            producto.setCantidad(stockActual - 1);
+            producto.setCantidad(stockActual - dto.getCantidad());
         }
         productoRepository.save(producto);
 
@@ -45,6 +51,7 @@ public class MovimientoService {
                 .tipoMovimiento(tipo)
                 .fechaRegistro(LocalDateTime.now())
                 .motivo(dto.getMotivo())
+                .cantidad(dto.getCantidad())
                 .usuario(usuario)
                 .producto(producto)
                 .build();

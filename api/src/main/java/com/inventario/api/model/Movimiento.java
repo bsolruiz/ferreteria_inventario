@@ -25,6 +25,9 @@ public class Movimiento {
 
     private String motivo;
 
+    @Column(nullable = false)
+    private Integer cantidad;
+
     @ManyToOne
     @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario usuario;
