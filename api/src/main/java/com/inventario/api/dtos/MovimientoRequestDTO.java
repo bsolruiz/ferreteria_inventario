@@ -13,5 +13,6 @@ public class MovimientoRequestDTO {
 
     private String tipoMovimiento; // ENTRADA o SALIDA
     private Integer usuarioId;
-    private List<DetalleMovimientoDTO> detalles;
+    private Integer productoId;
+    private String motivo;
 }

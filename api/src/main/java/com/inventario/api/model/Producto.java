@@ -3,7 +3,6 @@ import jakarta.persistence.*;
 import lombok.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
 @Table(name = "producto")
@@ -27,6 +26,8 @@ public class Producto {
     @Column(unique = true)
     private String codigoBarras;
 
+    private Integer cantidad;
+
     private LocalDateTime fechaCreacion;
 
     private LocalDateTime fechaActualizacion;
@@ -34,7 +35,4 @@ public class Producto {
     @ManyToOne
     @JoinColumn(name = "categoria_id", nullable = false)
     private Categoria categoria;
-
-    @OneToMany(mappedBy = "producto")
-    private List<DetalleMovimiento> detalles;
 }

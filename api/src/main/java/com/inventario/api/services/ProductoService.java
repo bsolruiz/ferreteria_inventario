@@ -32,6 +32,7 @@ public class ProductoService {
                 .precio(dto.getPrecio())
                 .codigoBarras(dto.getCodigoBarras())
                 .categoria(categoria)
+                .cantidad(0)
                 .fechaCreacion(LocalDateTime.now())
                 .fechaActualizacion(LocalDateTime.now())
                 .build();
