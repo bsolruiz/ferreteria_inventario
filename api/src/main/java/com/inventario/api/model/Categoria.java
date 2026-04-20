@@ -1,5 +1,6 @@
 package com.inventario.api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import java.util.List;
@@ -20,5 +21,6 @@ public class Categoria {
     private String nombreCategoria;
 
     @OneToMany(mappedBy = "categoria")
+    @JsonIgnore  // ← esto corta la recursión
     private List<Producto> productos;
 }

@@ -31,4 +31,7 @@ public interface ProductoRepository extends JpaRepository<Producto, Integer> {
 
     @Query("SELECT p FROM Producto p JOIN FETCH p.categoria")
     List<Producto> findAllConCategoria();
+
+    boolean existsByNombreProductoIgnoreCase(String nombreProducto);
+
 }
