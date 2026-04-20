@@ -5,6 +5,7 @@ import com.inventario.api.dtos.ProductoResponseDTO;
 import com.inventario.api.model.Categoria;
 import com.inventario.api.model.Producto;
 import com.inventario.api.repository.CategoriaRepository;
+import com.inventario.api.repository.MovimientoRepository;
 import com.inventario.api.repository.ProductoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ public class ProductoService {
 
     private final ProductoRepository productoRepository;
     private final CategoriaRepository categoriaRepository;
-
+    private final MovimientoRepository movimientoRepository;
     // Crear
     public ProductoResponseDTO crearProducto(ProductoDTO dto) {
         Categoria categoria = categoriaRepository.findById(dto.getCategoriaId())
@@ -27,7 +28,9 @@ public class ProductoService {
         if (productoRepository.existsByCodigoBarras(dto.getCodigoBarras())) {
             throw new RuntimeException("El código de barras ya existe");
         }
-
+        if (productoRepository.existsByNombreProductoIgnoreCase(dto.getNombreProducto())) {
+            throw new RuntimeException("Ya existe un producto con ese nombre");
+        }
         Producto producto = Producto.builder()
                 .nombreProducto(dto.getNombreProducto())
                 .descripcion(dto.getDescripcion())
@@ -79,10 +82,12 @@ public class ProductoService {
         return mapToDTO(productoRepository.save(producto));
     }
 
-    // Eliminar
     public void eliminarProducto(Integer id) {
         if (!productoRepository.existsById(id)) {
             throw new RuntimeException("Producto no encontrado");
+        }
+        if (movimientoRepository.existsByProducto_IdProducto(id)) {
+            throw new RuntimeException("No se puede eliminar el producto porque tiene movimientos registrados");
         }
         productoRepository.deleteById(id);
     }

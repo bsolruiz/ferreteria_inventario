@@ -22,4 +22,5 @@ public interface MovimientoRepository extends JpaRepository<Movimiento, Integer>
     default Integer sumarSalidas(Integer productoId) {
         return sumByProductoAndTipo(productoId, TipoMovimiento.SALIDA);
     }
+    boolean existsByProducto_IdProducto(Integer idProducto);
 }
