@@ -74,7 +74,7 @@ public class UsuarioService {
     }
 
     //lista id
-    public UsuarioDTO obtenerPorId(Long id) {
+    public UsuarioDTO obtenerUsuario(Long id) {
 
         Usuario usuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
