@@ -20,5 +20,9 @@ public class Categoria {
     private String nombreCategoria;
 
     @OneToMany(mappedBy = "categoria")
+<<<<<<< Updated upstream
+=======
+    @JsonIgnore
+>>>>>>> Stashed changes
     private List<Producto> productos;
 }
