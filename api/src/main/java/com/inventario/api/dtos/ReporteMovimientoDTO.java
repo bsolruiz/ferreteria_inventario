@@ -15,4 +15,5 @@ public class ReporteMovimientoDTO {
     private String motivo;
     private String productoNombre;
     private String usuarioNombre;
+    private Integer cantidad;
 }

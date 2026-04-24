@@ -49,6 +49,7 @@ public class UsuarioService {
 
         usuario.setNombres(dto.getNombres());
         usuario.setCorreo(dto.getCorreo());
+        usuario.setEstado(dto.getEstado());
 
         if (dto.getRolId() != null) {
             Rol rol = rolRepository.findById(dto.getRolId())

@@ -61,6 +61,7 @@ public class ReporteService {
                 .motivo(m.getMotivo())
                 .productoNombre(m.getProducto().getNombreProducto())
                 .usuarioNombre(m.getUsuario().getNombres())
+                .cantidad(m.getCantidad())
                 .build();
     }
 
