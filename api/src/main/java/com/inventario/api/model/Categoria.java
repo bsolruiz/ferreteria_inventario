@@ -21,6 +21,7 @@ public class Categoria {
     private String nombreCategoria;
 
     @OneToMany(mappedBy = "categoria")
-    @JsonIgnore  // ← esto corta la recursión
+    @JsonIgnore
+    
     private List<Producto> productos;
 }

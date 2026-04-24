@@ -15,8 +15,10 @@ public class Rol {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_rol")
     private Integer idRol;
 
+    @Column(name = "nombre_rol")
     private String nombreRol;
 
     @OneToMany(mappedBy = "rol")

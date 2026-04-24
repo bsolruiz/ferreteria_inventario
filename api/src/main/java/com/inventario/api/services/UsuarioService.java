@@ -95,6 +95,7 @@ public class UsuarioService {
     private UsuarioDTO mapToDTO(Usuario usuario) {
 
         UsuarioDTO dto = new UsuarioDTO();
+        dto.setIdUsuario(usuario.getIdUsuario());
         dto.setNombres(usuario.getNombres());
         dto.setCorreo(usuario.getCorreo());
         dto.setContrasena(null);
