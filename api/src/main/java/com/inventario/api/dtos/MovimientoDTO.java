@@ -10,5 +10,8 @@ import lombok.*;
 public class MovimientoDTO {
 
     private String tipoMovimiento;
-    private Integer usuarioId;
+    private Long usuarioId;
+    private Long productoId;
+    private String motivo;
+    private Integer cantidad;
 }

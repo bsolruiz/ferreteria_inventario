@@ -23,10 +23,16 @@ public class Movimiento {
 
     private LocalDateTime fechaRegistro;
 
+    private String motivo;
+
+    @Column(nullable = false)
+    private Integer cantidad;
+
     @ManyToOne
     @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario usuario;
 
-    @OneToMany(mappedBy = "movimiento")
-    private List<DetalleMovimiento> detalles;
+    @ManyToOne
+    @JoinColumn(name = "producto_id", nullable = false)
+    private Producto producto;
 }

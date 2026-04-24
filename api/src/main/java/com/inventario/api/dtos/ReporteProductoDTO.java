@@ -1,7 +1,6 @@
 package com.inventario.api.dtos;
 
 import lombok.*;
-
 import java.math.BigDecimal;
 
 @Getter
@@ -9,12 +8,12 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ProductoDTO {
-
+public class ReporteProductoDTO {
+    private Integer idProducto;
     private String nombreProducto;
     private String descripcion;
     private BigDecimal precio;
     private String codigoBarras;
-    private Integer categoriaId;
+    private String categoriaNombre;
     private Integer cantidad;
 }

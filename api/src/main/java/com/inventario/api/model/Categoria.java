@@ -1,5 +1,6 @@
 package com.inventario.api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import java.util.List;
@@ -20,9 +21,8 @@ public class Categoria {
     private String nombreCategoria;
 
     @OneToMany(mappedBy = "categoria")
-<<<<<<< Updated upstream
-=======
     @JsonIgnore
->>>>>>> Stashed changes
+  
+    main
     private List<Producto> productos;
 }

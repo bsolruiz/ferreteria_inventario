@@ -27,8 +27,8 @@ public class UsuarioController {
 
     //id
     @GetMapping("/{id}")
-    public UsuarioDTO obtenerPorId(@PathVariable Long id) {
-        return usuarioService.obtenerPorId(id);
+    public UsuarioDTO obtenerUsuario(@PathVariable Long id) {
+        return usuarioService.obtenerUsuario(id);
     }
 
     //actualizar
