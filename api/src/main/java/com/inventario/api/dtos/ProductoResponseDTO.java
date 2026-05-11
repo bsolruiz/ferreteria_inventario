@@ -15,4 +15,5 @@ public class ProductoResponseDTO {
     private Integer categoriaId;
     private String categoriaNombre;
     private LocalDateTime fechaCreacion;
+    private Boolean tieneMovimientos;  
 }

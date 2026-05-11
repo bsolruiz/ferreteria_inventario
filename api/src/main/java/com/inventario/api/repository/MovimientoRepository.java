@@ -23,4 +23,6 @@ public interface MovimientoRepository extends JpaRepository<Movimiento, Integer>
         return sumByProductoAndTipo(productoId, TipoMovimiento.SALIDA);
     }
     boolean existsByProducto_IdProducto(Integer idProducto);
+
+    void deleteByProducto_IdProducto(Integer idProducto);
 }

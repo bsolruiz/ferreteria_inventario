@@ -9,6 +9,7 @@ import com.inventario.api.repository.MovimientoRepository;
 import com.inventario.api.repository.ProductoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,7 +21,7 @@ public class ProductoService {
     private final ProductoRepository productoRepository;
     private final CategoriaRepository categoriaRepository;
     private final MovimientoRepository movimientoRepository;
-    // Crear
+
     public ProductoResponseDTO crearProducto(ProductoDTO dto) {
         Categoria categoria = categoriaRepository.findById(dto.getCategoriaId())
                 .orElseThrow(() -> new RuntimeException("Categoría no encontrada"));
@@ -37,13 +38,12 @@ public class ProductoService {
                 .precio(dto.getPrecio())
                 .codigoBarras(dto.getCodigoBarras())
                 .categoria(categoria)
-                .cantidad(0) // la cantidad la maneja movimientos, no creación
+                .cantidad(0)
                 .build();
 
         return mapToDTO(productoRepository.save(producto));
     }
 
-    // Listar todos
     public List<ProductoResponseDTO> listarProductos() {
         return productoRepository.findAllConCategoria()
                 .stream()
@@ -51,19 +51,16 @@ public class ProductoService {
                 .collect(Collectors.toList());
     }
 
-    // Obtener por ID
     public ProductoResponseDTO obtenerPorId(Integer id) {
         Producto producto = productoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
         return mapToDTO(producto);
     }
 
-    // Actualizar (sin cantidad)
     public ProductoResponseDTO actualizarProducto(Integer id, ProductoDTO dto) {
         Producto producto = productoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
 
-        // Validar código de barras si cambió
         if (!producto.getCodigoBarras().equals(dto.getCodigoBarras())
                 && productoRepository.existsByCodigoBarras(dto.getCodigoBarras())) {
             throw new RuntimeException("El código de barras ya existe");
@@ -77,22 +74,20 @@ public class ProductoService {
         producto.setPrecio(dto.getPrecio());
         producto.setCodigoBarras(dto.getCodigoBarras());
         producto.setCategoria(categoria);
-        // cantidad NO se toca aquí
 
         return mapToDTO(productoRepository.save(producto));
     }
 
+    @Transactional
     public void eliminarProducto(Integer id) {
         if (!productoRepository.existsById(id)) {
             throw new RuntimeException("Producto no encontrado");
         }
-        if (movimientoRepository.existsByProducto_IdProducto(id)) {
-            throw new RuntimeException("No se puede eliminar el producto porque tiene movimientos registrados");
-        }
+        // Primero elimina los movimientos asociados, luego el producto
+        movimientoRepository.deleteByProducto_IdProducto(id);
         productoRepository.deleteById(id);
     }
 
-    // Mapper
     private ProductoResponseDTO mapToDTO(Producto p) {
         return ProductoResponseDTO.builder()
                 .idProducto(p.getIdProducto())
@@ -104,6 +99,7 @@ public class ProductoService {
                 .categoriaId(p.getCategoria().getIdCategoria())
                 .categoriaNombre(p.getCategoria().getNombreCategoria())
                 .fechaCreacion(p.getFechaCreacion())
+                .tieneMovimientos(movimientoRepository.existsByProducto_IdProducto(p.getIdProducto()))
                 .build();
     }
 }
