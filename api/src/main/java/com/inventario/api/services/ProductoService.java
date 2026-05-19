@@ -26,12 +26,16 @@ public class ProductoService {
         Categoria categoria = categoriaRepository.findById(dto.getCategoriaId())
                 .orElseThrow(() -> new RuntimeException("Categoría no encontrada"));
 
+        // Código de barras: único globalmente (activo o inactivo)
         if (productoRepository.existsByCodigoBarras(dto.getCodigoBarras())) {
             throw new RuntimeException("El código de barras ya existe");
         }
-        if (productoRepository.existsByNombreProductoIgnoreCase(dto.getNombreProducto())) {
-            throw new RuntimeException("Ya existe un producto con ese nombre");
+
+        // Nombre: único solo entre productos activos
+        if (productoRepository.existsByNombreProductoIgnoreCaseAndActivoTrue(dto.getNombreProducto())) {
+            throw new RuntimeException("Ya existe un producto activo con ese nombre");
         }
+
         Producto producto = Producto.builder()
                 .nombreProducto(dto.getNombreProducto())
                 .descripcion(dto.getDescripcion())
@@ -40,11 +44,13 @@ public class ProductoService {
                 .categoria(categoria)
                 .cantidad(0)
                 .build();
+        // activo se setea en @PrePersist
 
         return mapToDTO(productoRepository.save(producto));
     }
 
     public List<ProductoResponseDTO> listarProductos() {
+        // findAllConCategoria ya filtra activo = true
         return productoRepository.findAllConCategoria()
                 .stream()
                 .map(this::mapToDTO)
@@ -61,6 +67,7 @@ public class ProductoService {
         Producto producto = productoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
 
+        // Validar código de barras solo si cambió
         if (!producto.getCodigoBarras().equals(dto.getCodigoBarras())
                 && productoRepository.existsByCodigoBarras(dto.getCodigoBarras())) {
             throw new RuntimeException("El código de barras ya existe");
@@ -80,12 +87,12 @@ public class ProductoService {
 
     @Transactional
     public void eliminarProducto(Integer id) {
-        if (!productoRepository.existsById(id)) {
-            throw new RuntimeException("Producto no encontrado");
-        }
-        // Primero elimina los movimientos asociados, luego el producto
-        movimientoRepository.deleteByProducto_IdProducto(id);
-        productoRepository.deleteById(id);
+        Producto producto = productoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+
+        // Soft delete: inactivar, los movimientos permanecen intactos
+        producto.setActivo(false);
+        productoRepository.save(producto);
     }
 
     private ProductoResponseDTO mapToDTO(Producto p) {

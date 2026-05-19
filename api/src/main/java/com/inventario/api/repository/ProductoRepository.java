@@ -1,7 +1,7 @@
 package com.inventario.api.repository;
 
-import com.inventario.api.model.Producto;
 import com.inventario.api.model.Categoria;
+import com.inventario.api.model.Producto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -13,25 +13,26 @@ import java.util.Optional;
 @Repository
 public interface ProductoRepository extends JpaRepository<Producto, Integer> {
 
-    List<Producto> findByNombreProductoContainingIgnoreCase(String nombre);
+    // Solo productos activos
+    @Query("SELECT p FROM Producto p JOIN FETCH p.categoria WHERE p.activo = true")
+    List<Producto> findAllConCategoria();
+
+    // Unicidad de código de barras globalmente (activo o no)
+    boolean existsByCodigoBarras(String codigoBarras);
+
+    // Unicidad de nombre SOLO entre activos
+    boolean existsByNombreProductoIgnoreCaseAndActivoTrue(String nombreProducto);
+
+    // Para validar cambio de código en actualización (entre activos)
+    boolean existsByCodigoBarrasAndActivoTrue(String codigoBarras);
 
     Optional<Producto> findByCodigoBarras(String codigoBarras);
 
-    boolean existsByCodigoBarras(String codigoBarras);
-
     List<Producto> findByCategoria(Categoria categoria);
 
-    List<Producto> findByCategoria_IdCategoria(Integer idCategoria);
-
-    @Query("SELECT p FROM Producto p JOIN FETCH p.categoria WHERE p.cantidad <= :limite AND p.cantidad > 0")
+    @Query("SELECT p FROM Producto p JOIN FETCH p.categoria WHERE p.cantidad <= :limite AND p.cantidad > 0 AND p.activo = true")
     List<Producto> findProductosBajoStock(@Param("limite") int limite);
 
-    @Query("SELECT p FROM Producto p JOIN FETCH p.categoria WHERE p.cantidad IS NULL OR p.cantidad = 0")
+    @Query("SELECT p FROM Producto p JOIN FETCH p.categoria WHERE (p.cantidad IS NULL OR p.cantidad = 0) AND p.activo = true")
     List<Producto> findProductosSinStock();
-
-    @Query("SELECT p FROM Producto p JOIN FETCH p.categoria")
-    List<Producto> findAllConCategoria();
-
-    boolean existsByNombreProductoIgnoreCase(String nombreProducto);
-
 }
