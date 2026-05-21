@@ -35,4 +35,9 @@ public interface ProductoRepository extends JpaRepository<Producto, Integer> {
 
     @Query("SELECT p FROM Producto p JOIN FETCH p.categoria WHERE (p.cantidad IS NULL OR p.cantidad = 0) AND p.activo = true")
     List<Producto> findProductosSinStock();
+
+    boolean existsByNombreProductoIgnoreCaseAndActivoTrueAndIdProductoNot(
+            String nombreProducto,
+            Integer idProducto
+    );
 }

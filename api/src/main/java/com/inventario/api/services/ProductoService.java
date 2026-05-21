@@ -64,12 +64,23 @@ public class ProductoService {
     }
 
     public ProductoResponseDTO actualizarProducto(Integer id, ProductoDTO dto) {
+
         Producto producto = productoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+
+        // Validar nombre único entre productos activos
+        if (!producto.getNombreProducto().equalsIgnoreCase(dto.getNombreProducto())
+                && productoRepository.existsByNombreProductoIgnoreCaseAndActivoTrueAndIdProductoNot(
+                dto.getNombreProducto(),
+                id)) {
+
+            throw new RuntimeException("Ya existe un producto activo con ese nombre");
+        }
 
         // Validar código de barras solo si cambió
         if (!producto.getCodigoBarras().equals(dto.getCodigoBarras())
                 && productoRepository.existsByCodigoBarras(dto.getCodigoBarras())) {
+
             throw new RuntimeException("El código de barras ya existe");
         }
 
