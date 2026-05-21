@@ -18,14 +18,14 @@ public class AuthService {
     public LoginResponseDTO login(LoginRequestDTO request) {
 
         Usuario usuario = usuarioRepository.findByCorreo(request.getCorreo())
-                .orElseThrow(() -> new RuntimeException("Credenciales incorrectas"));
+                .orElseThrow(() -> new IllegalArgumentException("Credenciales incorrectas"));
 
         if (usuario.getEstado() == null || usuario.getEstado() == 0L) {
-            throw new RuntimeException("Usuario inactivo. Contacta al administrador.");
+            throw new IllegalArgumentException("Usuario inactivo. Contacta al administrador.");
         }
 
         if (!passwordEncoder.matches(request.getContrasena(), usuario.getContrasena())) {
-            throw new RuntimeException("Credenciales incorrectas");
+            throw new IllegalArgumentException("Credenciales incorrectas");
         }
 
         return LoginResponseDTO.builder()
