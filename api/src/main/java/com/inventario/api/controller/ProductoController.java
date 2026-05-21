@@ -77,4 +77,23 @@ public class ProductoController {
                     .body(Map.of("mensaje", e.getMessage()));
         }
     }
+
+    @DeleteMapping
+    public ResponseEntity<?> eliminarProductos(@RequestBody List<Integer> ids) {
+
+        try {
+
+            productoService.eliminarProductos(ids);
+
+            return ResponseEntity.ok(
+                    Map.of("mensaje", "Productos inactivados correctamente"));
+
+        } catch (RuntimeException e) {
+
+            return ResponseEntity.badRequest()
+                    .body(Map.of("mensaje", e.getMessage()));
+        }
+    }
+
+
 }

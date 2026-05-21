@@ -106,6 +106,25 @@ public class ProductoService {
         productoRepository.save(producto);
     }
 
+    @Transactional
+    public void eliminarProductos(List<Integer> ids) {
+
+        List<Producto> productos = productoRepository.findAllById(ids);
+
+        if (productos.isEmpty()) {
+            throw new RuntimeException("No se encontraron productos");
+        }
+
+        for (Producto producto : productos) {
+
+            if (producto.getActivo()) {
+                producto.setActivo(false);
+            }
+        }
+
+        productoRepository.saveAll(productos);
+    }
+
     private ProductoResponseDTO mapToDTO(Producto p) {
         return ProductoResponseDTO.builder()
                 .idProducto(p.getIdProducto())
