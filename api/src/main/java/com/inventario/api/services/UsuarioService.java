@@ -69,6 +69,9 @@ public class UsuarioService {
         if (dto.getCorreo() == null || dto.getCorreo().isBlank()) {
             throw new RuntimeException("El correo es obligatorio");
         }
+        if (dto.getContrasena() == null || dto.getContrasena().isBlank()) {
+            throw new RuntimeException("La contraseña es obligatoria");
+        }
 
         if (dto.getEstado() == null) {
             throw new RuntimeException("El estado es obligatorio");
@@ -78,11 +81,6 @@ public class UsuarioService {
             throw new RuntimeException("El rol es obligatorio");
         }
 
-        if (dto.getContrasena() == null)
-        {
-            throw new RuntimeException("la contrasena es obligatoria");
-
-        }
 
         Usuario usuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
