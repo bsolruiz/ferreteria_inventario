@@ -61,6 +61,23 @@ public class UsuarioService {
     //actualizar
     public UsuarioDTO actualizarUsuario(Long id, UsuarioDTO dto) {
 
+        // Validación de campos obligatorios
+        if (dto.getNombres() == null || dto.getNombres().isBlank()) {
+            throw new RuntimeException("El nombre es obligatorio");
+        }
+
+        if (dto.getCorreo() == null || dto.getCorreo().isBlank()) {
+            throw new RuntimeException("El correo es obligatorio");
+        }
+
+        if (dto.getEstado() == null) {
+            throw new RuntimeException("El estado es obligatorio");
+        }
+
+        if (dto.getRolId() == null) {
+            throw new RuntimeException("El rol es obligatorio");
+        }
+
         Usuario usuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
@@ -68,13 +85,11 @@ public class UsuarioService {
         usuario.setCorreo(dto.getCorreo());
         usuario.setEstado(dto.getEstado());
 
-        if (dto.getRolId() != null) {
-            Rol rol = rolRepository.findById(dto.getRolId())
-                    .orElseThrow(() -> new RuntimeException("Rol no encontrado"));
-            usuario.setRol(rol);
-        }
+        Rol rol = rolRepository.findById(dto.getRolId())
+                .orElseThrow(() -> new RuntimeException("Rol no encontrado"));
+        usuario.setRol(rol);
 
-        if (dto.getContrasena() != null && !dto.getContrasena().isEmpty()) {
+        if (dto.getContrasena() != null && !dto.getContrasena().isBlank()) {
             usuario.setContrasena(passwordEncoder.encode(dto.getContrasena()));
         }
 
