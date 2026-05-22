@@ -118,6 +118,7 @@ public class ProductoService {
                 .categoriaNombre(p.getCategoria().getNombreCategoria())
                 .fechaCreacion(p.getFechaCreacion())
                 .tieneMovimientos(movimientoRepository.existsByProducto_IdProducto(p.getIdProducto()))
+                .activo(p.getActivo())
                 .build();
     }
 }
