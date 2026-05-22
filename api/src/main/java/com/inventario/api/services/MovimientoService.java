@@ -1,9 +1,6 @@
 package com.inventario.api.services;
 
 import com.inventario.api.dtos.MovimientoDTO;
-import com.inventario.api.exception.BusinessException;
-import com.inventario.api.exception.ResourceNotFoundException;
-import com.inventario.api.exception.StockInsuficienteException;
 import com.inventario.api.model.*;
 import com.inventario.api.repository.*;
 import lombok.RequiredArgsConstructor;
@@ -23,24 +20,24 @@ public class MovimientoService {
     @Transactional
     public void registrarMovimiento(MovimientoDTO dto) {
 
+
         if (dto.getCantidad() == null || dto.getCantidad() <= 0) {
-            throw new BusinessException("La cantidad debe ser mayor a 0");
+            throw new RuntimeException("La cantidad debe ser mayor a 0");
         }
 
         Usuario usuario = usuarioRepository.findById(dto.getUsuarioId())
-                .orElseThrow(() -> new ResourceNotFoundException("Usuario", dto.getUsuarioId()));
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
         Producto producto = productoRepository.findById(dto.getProductoId().intValue())
-                .orElseThrow(() -> new ResourceNotFoundException("Producto", dto.getProductoId()));
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
 
-        // Lanza IllegalArgumentException si el valor no existe en el enum,
-        // capturada por GlobalExceptionHandler#handleIllegalArgument
         TipoMovimiento tipo = TipoMovimiento.valueOf(dto.getTipoMovimiento().toUpperCase());
 
         int stockActual = producto.getCantidad() != null ? producto.getCantidad() : 0;
 
         if (tipo == TipoMovimiento.SALIDA && stockActual < dto.getCantidad()) {
-            throw new StockInsuficienteException(stockActual, dto.getCantidad());
+            throw new RuntimeException("Stock insuficiente. Stock actual: " + stockActual +
+                    ", cantidad solicitada: " + dto.getCantidad());
         }
 
         if (tipo == TipoMovimiento.ENTRADA) {
@@ -64,7 +61,7 @@ public class MovimientoService {
 
     public int calcularStock(Integer productoId) {
         Producto producto = productoRepository.findById(productoId)
-                .orElseThrow(() -> new ResourceNotFoundException("Producto", productoId));
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
         return producto.getCantidad() != null ? producto.getCantidad() : 0;
     }
 }
