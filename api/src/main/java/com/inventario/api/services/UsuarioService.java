@@ -69,9 +69,9 @@ public class UsuarioService {
         if (dto.getCorreo() == null || dto.getCorreo().isBlank()) {
             throw new RuntimeException("El correo es obligatorio");
         }
-        if (dto.getContrasena() == null || dto.getContrasena().isBlank()) {
-            throw new RuntimeException("La contraseña es obligatoria");
-        }
+//        if (dto.getContrasena() == null || dto.getContrasena().isBlank()) {
+//            throw new RuntimeException("La contraseña es obligatoria");
+//        }
 
         if (dto.getEstado() == null) {
             throw new RuntimeException("El estado es obligatorio");
