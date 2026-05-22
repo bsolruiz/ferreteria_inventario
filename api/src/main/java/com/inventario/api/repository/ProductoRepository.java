@@ -21,6 +21,10 @@ public interface ProductoRepository extends JpaRepository<Producto, Integer> {
     @Query("SELECT p FROM Producto p JOIN FETCH p.categoria WHERE p.activo = false")
     List<Producto> findAllInactivos();
 
+    // Todos (activos e inactivos) sin filtro
+    @Query("SELECT p FROM Producto p JOIN FETCH p.categoria")
+    List<Producto> findAllConCategoriaSinFiltro();
+
     // Unicidad de código de barras globalmente (activo o no)
     boolean existsByCodigoBarras(String codigoBarras);
 

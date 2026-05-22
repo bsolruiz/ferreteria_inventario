@@ -54,7 +54,7 @@ public class ReporteService {
     }
 
     public List<ReporteInventarioDTO> getInventarioTotal() {
-        return productoRepository.findAllConCategoria().stream()
+        return productoRepository.findAllConCategoriaSinFiltro().stream()
                 .map(this::toInventarioDTO)
                 .collect(Collectors.toList());
     }
