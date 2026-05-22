@@ -25,6 +25,23 @@ public class UsuarioService {
     //crear
     public UsuarioDTO crearUsuario(UsuarioDTO dto) {
 
+        // Validación de campos obligatorios
+        if (dto.getNombres() == null || dto.getNombres().isBlank()) {
+            throw new IllegalArgumentException("El nombre es obligatorio");
+        }
+
+        if (dto.getCorreo() == null || dto.getCorreo().isBlank()) {
+            throw new IllegalArgumentException("El correo es obligatorio");
+        }
+
+        if (dto.getContrasena() == null || dto.getContrasena().isBlank()) {
+            throw new IllegalArgumentException("La contraseña es obligatoria");
+        }
+
+        if (dto.getRolId() == null) {
+            throw new IllegalArgumentException("El rol es obligatorio");
+        }
+
         if (usuarioRepository.existsByCorreo(dto.getCorreo())) {
             throw new RuntimeException("El correo ya está registrado");
         }
@@ -35,7 +52,7 @@ public class UsuarioService {
         Usuario usuario = new Usuario();
         usuario.setNombres(dto.getNombres());
         usuario.setCorreo(dto.getCorreo());
-        usuario.setContrasena(passwordEncoder.encode(dto.getContrasena())); //encriptada
+        usuario.setContrasena(passwordEncoder.encode(dto.getContrasena()));
         usuario.setRol(rol);
 
         return mapToDTO(usuarioRepository.save(usuario));
