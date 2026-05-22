@@ -17,4 +17,5 @@ public class ReporteInventarioDTO {
     private Integer cantidad;
     private BigDecimal precio;
     private BigDecimal valorTotal;
+    private Boolean activo;
 }

@@ -98,6 +98,7 @@ public class ReporteService {
                 .cantidad(cantidad)
                 .precio(precio)
                 .valorTotal(valorTotal)
+                .activo(p.getActivo())
                 .build();
     }
 }
