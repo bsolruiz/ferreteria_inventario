@@ -17,15 +17,24 @@ public class AuthService {
 
     public LoginResponseDTO login(LoginRequestDTO request) {
 
+        // Validación de campos obligatorios
+        if (request.getCorreo() == null || request.getCorreo().isBlank()) {
+            throw new IllegalArgumentException("El correo es obligatorio");
+        }
+
+        if (request.getContrasena() == null || request.getContrasena().isBlank()) {
+            throw new IllegalArgumentException("La contraseña es obligatoria");
+        }
+
         Usuario usuario = usuarioRepository.findByCorreo(request.getCorreo())
-                .orElseThrow(() -> new IllegalArgumentException("Credenciales incorrectas"));
+                .orElseThrow(() -> new RuntimeException("Credenciales incorrectas"));
 
         if (usuario.getEstado() == null || usuario.getEstado() == 0L) {
-            throw new IllegalArgumentException("Usuario inactivo. Contacta al administrador.");
+            throw new RuntimeException("Usuario inactivo. Contacta al administrador.");
         }
 
         if (!passwordEncoder.matches(request.getContrasena(), usuario.getContrasena())) {
-            throw new IllegalArgumentException("Credenciales incorrectas");
+            throw new RuntimeException("Credenciales incorrectas");
         }
 
         return LoginResponseDTO.builder()
