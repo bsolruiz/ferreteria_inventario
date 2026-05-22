@@ -27,19 +27,19 @@ public class UsuarioService {
 
         // Validación de campos obligatorios
         if (dto.getNombres() == null || dto.getNombres().isBlank()) {
-            throw new IllegalArgumentException("El nombre es obligatorio");
+            throw new RuntimeException("El nombre es obligatorio");
         }
 
         if (dto.getCorreo() == null || dto.getCorreo().isBlank()) {
-            throw new IllegalArgumentException("El correo es obligatorio");
+            throw new RuntimeException("El correo es obligatorio");
         }
 
         if (dto.getContrasena() == null || dto.getContrasena().isBlank()) {
-            throw new IllegalArgumentException("La contraseña es obligatoria");
+            throw new RuntimeException("La contraseña es obligatoria");
         }
 
         if (dto.getRolId() == null) {
-            throw new IllegalArgumentException("El rol es obligatorio");
+            throw new RuntimeException("El rol es obligatorio");
         }
 
         if (usuarioRepository.existsByCorreo(dto.getCorreo())) {
