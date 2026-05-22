@@ -29,8 +29,14 @@ public class ReporteService {
                 .collect(Collectors.toList());
     }
 
-    public List<ReporteProductoDTO> getProductosExistentes() {
+    public List<ReporteProductoDTO> getProductosActivos() {
         return productoRepository.findAllConCategoria().stream()
+                .map(this::toProductoDTO)
+                .collect(Collectors.toList());
+    }
+
+    public List<ReporteProductoDTO> getProductosInactivos() {
+        return productoRepository.findAllInactivos().stream()
                 .map(this::toProductoDTO)
                 .collect(Collectors.toList());
     }

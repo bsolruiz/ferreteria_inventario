@@ -19,9 +19,14 @@ public class ReporteController {
         return reporteService.getHistorialMovimientos();
     }
 
-    @GetMapping("/productos")
-    public List<ReporteProductoDTO> productosExistentes() {
-        return reporteService.getProductosExistentes();
+    @GetMapping("/productos/activos")
+    public List<ReporteProductoDTO> productosActivos() {
+        return reporteService.getProductosActivos();
+    }
+
+    @GetMapping("/productos/inactivos")
+    public List<ReporteProductoDTO> productosInactivos() {
+        return reporteService.getProductosInactivos();
     }
 
     @GetMapping("/bajo-stock")
