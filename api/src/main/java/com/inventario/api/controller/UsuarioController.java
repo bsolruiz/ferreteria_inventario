@@ -1,10 +1,14 @@
 package com.inventario.api.controller;
+
 import com.inventario.api.dtos.UsuarioDTO;
 import com.inventario.api.services.UsuarioService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/usuarios")
@@ -13,37 +17,62 @@ public class UsuarioController {
 
     private final UsuarioService usuarioService;
 
-    //crear
     @PostMapping
-    public UsuarioDTO crearUsuario(@RequestBody UsuarioDTO dto) {
-        return usuarioService.crearUsuario(dto);
+    public ResponseEntity<?> crearUsuario(@RequestBody UsuarioDTO dto) {
+        try {
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body(usuarioService.crearUsuario(dto));
+
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest()
+                    .body(Map.of("mensaje", e.getMessage()));
+        }
     }
 
-    //todos
     @GetMapping
-    public List<UsuarioDTO> listarUsuarios() {
-        return usuarioService.listarUsuarios();
+    public ResponseEntity<?> listarUsuarios() {
+        try {
+            return ResponseEntity.ok(usuarioService.listarUsuarios());
+
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest()
+                    .body(Map.of("mensaje", e.getMessage()));
+        }
     }
 
-    //id
     @GetMapping("/{id}")
-    public UsuarioDTO obtenerUsuario(@PathVariable Long id) {
-        return usuarioService.obtenerUsuario(id);
+    public ResponseEntity<?> obtenerUsuario(@PathVariable Long id) {
+        try {
+            return ResponseEntity.ok(usuarioService.obtenerUsuario(id));
+
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("mensaje", e.getMessage()));
+        }
     }
 
-    //actualizar
     @PutMapping("/{id}")
-    public UsuarioDTO actualizarUsuario(
-            @PathVariable Long id,
-            @RequestBody UsuarioDTO dto
-    ) {
-        return usuarioService.actualizarUsuario(id, dto);
+    public ResponseEntity<?> actualizarUsuario(@PathVariable Long id, @RequestBody UsuarioDTO dto) {
+        try {
+            return ResponseEntity.ok(usuarioService.actualizarUsuario(id, dto));
+
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest()
+                    .body(Map.of("mensaje", e.getMessage()));
+        }
     }
 
-    //eliminar - estado
     @DeleteMapping("/{id}")
-    public String eliminarUsuario(@PathVariable Long id) {
-        usuarioService.eliminarUsuario(id);
-        return "Usuario eliminado correctamente";
+    public ResponseEntity<?> eliminarUsuario(@PathVariable Long id) {
+        try {
+            usuarioService.eliminarUsuario(id);
+
+            return ResponseEntity.ok(
+                    Map.of("mensaje", "Usuario inactivado correctamente"));
+
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("mensaje", e.getMessage()));
+        }
     }
 }
