@@ -78,6 +78,12 @@ public class UsuarioService {
             throw new RuntimeException("El rol es obligatorio");
         }
 
+        if (dto.getContrasena() == null)
+        {
+            throw new RuntimeException("la contrasena es obligatoria");
+
+        }
+
         Usuario usuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
