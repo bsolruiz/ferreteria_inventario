@@ -80,6 +80,7 @@ public class ReporteService {
                 .codigoBarras(p.getCodigoBarras())
                 .categoriaNombre(p.getCategoria().getNombreCategoria())
                 .cantidad(p.getCantidad())
+                .activo(p.getActivo())
                 .build();
     }
 

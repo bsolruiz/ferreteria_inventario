@@ -16,4 +16,5 @@ public class ReporteProductoDTO {
     private String codigoBarras;
     private String categoriaNombre;
     private Integer cantidad;
+    private Boolean activo;
 }
