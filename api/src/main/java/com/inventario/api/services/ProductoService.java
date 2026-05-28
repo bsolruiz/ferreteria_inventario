@@ -106,6 +106,24 @@ public class ProductoService {
         productoRepository.save(producto);
     }
 
+    @Transactional
+    public ProductoResponseDTO activarProducto(Integer id) {
+        Producto producto = productoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+
+        if (producto.getActivo()) {
+            throw new RuntimeException("El producto ya está activo");
+        }
+
+        // Validar nombre único entre productos activos al reactivar
+        if (productoRepository.existsByNombreProductoIgnoreCaseAndActivoTrue(producto.getNombreProducto())) {
+            throw new RuntimeException("Ya existe un producto activo con ese nombre");
+        }
+
+        producto.setActivo(true);
+        return mapToDTO(productoRepository.save(producto));
+    }
+
     private ProductoResponseDTO mapToDTO(Producto p) {
         return ProductoResponseDTO.builder()
                 .idProducto(p.getIdProducto())

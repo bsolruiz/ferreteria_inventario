@@ -77,4 +77,19 @@ public class ProductoController {
                     .body(Map.of("mensaje", e.getMessage()));
         }
     }
+
+    @PatchMapping("/{id}/activar")
+    public ResponseEntity<?> activarProducto(@PathVariable Integer id) {
+        try {
+            return ResponseEntity.ok(productoService.activarProducto(id));
+
+        } catch (RuntimeException e) {
+            String mensaje = e.getMessage();
+            HttpStatus status = mensaje.contains("no encontrado")
+                    ? HttpStatus.NOT_FOUND
+                    : HttpStatus.BAD_REQUEST;
+            return ResponseEntity.status(status)
+                    .body(Map.of("mensaje", mensaje));
+        }
+    }
 }
